@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  photobooth:
+    build: .
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - .:/app
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    network_mode: host
+    privileged: true
