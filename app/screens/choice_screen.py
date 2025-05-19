@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
-from PyQt6.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel
+from PyQt5.QtCore import Qt
 
 class ChoiceScreen(QWidget):
     def __init__(self, router):
@@ -7,7 +7,7 @@ class ChoiceScreen(QWidget):
         self.router = router
 
         layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignmentFlag(13))
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         label = QLabel("Combien de photos ?")
         label.setStyleSheet("font-size: 24px;")

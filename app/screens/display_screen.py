@@ -1,13 +1,13 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt, QTimer
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt, QTimer
 
 class DisplayScreen(QWidget):
     def __init__(self, router):
         super().__init__()
         self.router = router
         self.layout = QVBoxLayout()
-        self.layout.setAlignment(Qt.AlignmentFlag(13))
+        self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setLayout(self.layout)
 
     def on_enter(self, photos=[]):
