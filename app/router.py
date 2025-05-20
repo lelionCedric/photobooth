@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QStackedWidget
+from PyQt5.QtWidgets import QStackedWidget, QDesktopWidget
+from PyQt5.QtGui import QPalette, QColor
 from app.screens.home_screen import HomeScreen
 from app.screens.choice_screen import ChoiceScreen
 from app.screens.preview_screen import PreviewScreen
@@ -7,7 +8,55 @@ from app.screens.display_screen import DisplayScreen
 class Router(QStackedWidget):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(800, 600)
+
+        screen_rect = QDesktopWidget().screenGeometry()
+        self.screen_width = screen_rect.width()
+        self.screen_height = screen_rect.height()
+
+        self.setFixedSize(self.screen_width, self.screen_height)
+        self.showFullScreen()
+        
+        # Supprimer les marges internes
+        self.setContentsMargins(0, 0, 0, 0)
+        
+        # Définir la feuille de style globale pour tous les widgets
+        # Utilisation correcte de background-image et background-size
+        self.setStyleSheet("""
+            QStackedWidget {
+                background-color: #282828;
+                background-image: url('assets/background.jpg');  /* Remplacez par le chemin de votre image */
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;  /* Utilisez "cover" pour couvrir tout l'espace */
+                margin: 0;
+                padding: 0;
+                border: none;
+            }
+            
+            QWidget {
+                color: white;
+                margin: 0;
+                padding: 0;
+                border: none;
+            }
+            
+            QPushButton {
+                background-color: #3498db;
+                border: none;
+                border-radius: 5px;
+                padding: 10px;
+                color: white;
+                font-weight: bold;
+            }
+            
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            
+            QLabel {
+                background-color: transparent;  /* Important pour que les labels n'aient pas de fond */
+            }
+        """)
 
         self.home = HomeScreen(self)
         self.choice = ChoiceScreen(self)
