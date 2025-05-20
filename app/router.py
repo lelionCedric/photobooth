@@ -1,9 +1,12 @@
 from PyQt5.QtWidgets import QStackedWidget, QDesktopWidget
-from PyQt5.QtGui import QPalette, QColor
+from PyQt5.QtGui import QPalette, QColor, QPixmap, QPainter
+from PyQt5.QtCore import Qt, QSize
 from app.screens.home_screen import HomeScreen
 from app.screens.choice_screen import ChoiceScreen
 from app.screens.preview_screen import PreviewScreen
 from app.screens.display_screen import DisplayScreen
+
+import os
 
 class Router(QStackedWidget):
     def __init__(self):
@@ -16,23 +19,15 @@ class Router(QStackedWidget):
         self.setFixedSize(self.screen_width, self.screen_height)
         self.showFullScreen()
         
+        # Charger et redimensionner l'image de fond
+        self._setup_background()
+
         # Supprimer les marges internes
         self.setContentsMargins(0, 0, 0, 0)
         
         # Définir la feuille de style globale pour tous les widgets
         # Utilisation correcte de background-image et background-size
-        self.setStyleSheet("""
-            QStackedWidget {
-                background-color: #282828;
-                background-image: url('assets/background.jpg');  /* Remplacez par le chemin de votre image */
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;  /* Utilisez "cover" pour couvrir tout l'espace */
-                margin: 0;
-                padding: 0;
-                border: none;
-            }
-            
+        self.setStyleSheet("""            
             QWidget {
                 color: white;
                 margin: 0;
@@ -72,6 +67,35 @@ class Router(QStackedWidget):
         
         # Stockage des références pour la fermeture propre
         self._active_screen = self.home
+
+    def _setup_background(self):
+        """Charge et redimensionne l'image de fond à la taille exacte de l'écran"""
+        background_path = './assets/background.jpg'
+        
+        if not os.path.exists(background_path):
+            # Si l'image n'existe pas, utiliser un fond noir simple
+            self.setStyleSheet("QStackedWidget { background-color: #000000; }")
+            return
+            
+        # Charger l'image et la redimensionner à la taille exacte de l'écran
+        background = QPixmap(background_path)
+        if background.isNull():
+            self.setStyleSheet("QStackedWidget { background-color: #000000; }")
+            return
+            
+        # Redimensionner l'image à la taille exacte de l'écran
+        self.scaled_background = background.scaled(
+            QSize(self.screen_width, self.screen_height),
+            Qt.AspectRatioMode.IgnoreAspectRatio,  # Pour remplir tout l'écran
+            Qt.TransformationMode.SmoothTransformation  # Pour une meilleure qualité
+        )
+    
+    def paintEvent(self, event):
+        """Dessine l'image de fond redimensionnée"""
+        if hasattr(self, 'scaled_background'):
+            painter = QPainter(self)
+            painter.drawPixmap(0, 0, self.scaled_background)
+        super().paintEvent(event)
 
     def go_to(self, screen_name, **kwargs):
         """Change l'écran actif et appelle sa méthode on_enter"""
