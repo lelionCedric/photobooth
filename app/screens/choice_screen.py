@@ -22,12 +22,17 @@ class ChoiceScreen(QWidget):
 
         #LEFT
         left_widget = QWidget()
-        left_widget.setStyleSheet("background-color: transparent;")
+        left_widget.setStyleSheet(f"""
+            background-color: transparent;
+            height: {self.router.screen_height};
+            width: {self.router.screen_width/2};
+        """)
         left_layout = QVBoxLayout(left_widget)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         btn_left = QPushButton("1 photo")
-        btn_left.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        btn_left.setStyleSheet("background-color: rgba(0, 0, 0, 0); font-size: 15px")
+        btn_left.setFont(router.fontUtils.custom_font)
         btn_left.clicked.connect(lambda: self.router.go_to("preview", count=1))
         
         left_layout.addWidget(btn_left, 0, Qt.AlignmentFlag.AlignCenter)
@@ -35,11 +40,16 @@ class ChoiceScreen(QWidget):
         #RIGHT
 
         right_widget = QWidget()
-        right_widget.setStyleSheet("background-color: transparent;")
+        right_widget.setStyleSheet(f"""
+            background-color: transparent;
+            height: {self.router.screen_height};
+            width: {self.router.screen_width/2};
+        """)
         right_layout = QVBoxLayout(right_widget)
         right_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        btn_right = QPushButton("4 photo")
+        btn_right = QPushButton("4 photos")
+        btn_right.setFont(router.fontUtils.custom_font)
         btn_right.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
         btn_right.clicked.connect(lambda: self.router.go_to("preview", count=4))
         

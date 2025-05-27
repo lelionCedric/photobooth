@@ -8,6 +8,8 @@ from app.screens.display_screen import DisplayScreen
 
 import os
 
+from app.utils.font import FontUtils
+
 class Router(QStackedWidget):
     def __init__(self):
         super().__init__()
@@ -17,13 +19,15 @@ class Router(QStackedWidget):
         self.screen_height = screen_rect.height()
 
         self.setFixedSize(self.screen_width, self.screen_height)
-        self.showFullScreen()
+        #self.showFullScreen()
         
         # Charger et redimensionner l'image de fond
         self._setup_background()
 
         # Supprimer les marges internes
         self.setContentsMargins(0, 0, 0, 0)
+
+        self.fontUtils = FontUtils()
         
         # Définir la feuille de style globale pour tous les widgets
         # Utilisation correcte de background-image et background-size

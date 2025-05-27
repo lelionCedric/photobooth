@@ -1,8 +1,10 @@
 from PyQt5.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, QScrollArea, QGridLayout
 from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QFont
 import os
 import glob
+
+from app.utils.font import FontUtils
 
 class HomeScreen(QWidget):
     def __init__(self, router):
@@ -51,7 +53,7 @@ class HomeScreen(QWidget):
         
         button = QPushButton("Faire une photo")
         button.setStyleSheet(f"""
-            font-size: 30px;
+            font-size: 150px;
             background-color: rgba(0, 0, 0, 0);
             color: white;
             min-width: 300px;
@@ -59,6 +61,8 @@ class HomeScreen(QWidget):
             height: {self.router.screen_height};
             width: {self.router.screen_width/2};
         """)
+        
+        button.setFont(router.fontUtils.custom_font)
         button.clicked.connect(lambda: self.router.go_to("choice"))
         
         left_layout.addWidget(button, 0, Qt.AlignmentFlag.AlignCenter)
